@@ -1,0 +1,20 @@
+{
+  "env": {
+    "mocha": true,
+    "node": true
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "sorting"
+  ],
+  "rules": {
+    "import/extensions": "off",
+    "import/imports-first": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "new-cap": "off",
+    "sort-imports": "error",
+    "sort-keys": "error",
+    "sort-vars": "error"
+  }
+}
