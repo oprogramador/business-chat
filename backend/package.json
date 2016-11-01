@@ -1,0 +1,19 @@
+{
+  "name": "business-chat-backend",
+  "scripts": {
+    "start": "NODE_PATH=./app nodemon -r babel-register app/index.js"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.4",
+    "express": "^4.14.0",
+    "express-bunyan-logger": "^1.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "nodemon": "^1.11.0"
+  }
+}
