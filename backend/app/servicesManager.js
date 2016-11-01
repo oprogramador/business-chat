@@ -1,6 +1,6 @@
 import arangojs from 'arangojs';
 import bunyan from 'bunyan';
-import config from 'config';
+import config from 'business-chat-backend/config';
 import packageInfo from '../package';
 import url from 'url';
 

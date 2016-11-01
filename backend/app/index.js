@@ -1,6 +1,6 @@
 import ExpressBunyanLogger from 'express-bunyan-logger';
 import express from 'express';
-import { logger } from 'servicesManager';
+import { logger } from 'business-chat-backend/servicesManager';
 
 const PORT = 3000;
 
