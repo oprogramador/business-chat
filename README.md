@@ -10,3 +10,7 @@ Chat application for companies.
 * React
 * WebSocket
 * Docker
+
+## Run
+
+`DB_PASSWORD=your-secret-password docker-compose up`
