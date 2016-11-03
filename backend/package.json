@@ -1,7 +1,7 @@
 {
   "name": "business-chat-backend",
   "scripts": {
-    "create-project-symlink": "ln -s ../app node_modules/business-chat-backend",
+    "create-project-symlink": "scripts/create-project-symlink.sh",
     "lint": "eslint app",
     "postinstall": "npm run create-project-symlink",
     "start": "nodemon -r babel-register app/index.js",
@@ -20,6 +20,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
+    "chai-subset": "^1.3.0",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.9.1",
     "eslint-config-airbnb": "^12.0.0",
