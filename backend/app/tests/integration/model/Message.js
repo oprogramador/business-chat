@@ -1,4 +1,5 @@
 import Message from 'business-chat-backend/model/Message';
+import ValidationError from 'business-chat-backend/errors/ValidationError';
 import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 
@@ -28,7 +29,15 @@ describe('Message', () => {
   });
 
   it('invalidates when authentication fails');
-  it('invalidates when there are missing fields');
+  it('invalidates when there are missing fields', () => {
+    const message = {
+      roomId: 'bar',
+      senderId: 'foo',
+    };
+
+    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+  });
+
   it('invalidates when there are additional fields');
   it('invalidates when provided room id does not exist');
   it('invalidates when provided text is not a string');

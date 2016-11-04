@@ -1,0 +1,20 @@
+{
+  "title": "message",
+  "type": "object",
+  "properties": {
+    "roomId": {
+      "type": "string"
+    },
+    "senderId": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "roomId",
+    "senderId",
+    "text"
+  ]
+}
