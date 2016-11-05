@@ -1,0 +1,17 @@
+{
+  "title": "message",
+  "type": "object",
+  "properties": {
+    "teamId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "teamId"
+  ],
+  "additionalProperties": false
+}
