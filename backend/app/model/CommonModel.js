@@ -13,6 +13,17 @@ export default class CommonModel {
     this[privates] = { collectionName, schema, validators };
   }
 
+  createDatabase(name) {
+    db.useDatabase('_system');
+
+    return db.createDatabase(name)
+      .then(() => db.useDatabase(name));
+  }
+
+  createCollection() {
+    return db.collection(this[privates].collectionName).create();
+  }
+
   find(id) {
     return db.collection(this[privates].collectionName).firstExample({ id });
   }

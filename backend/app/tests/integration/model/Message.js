@@ -1,7 +1,6 @@
 import MessageModel from 'business-chat-backend/model/Message';
 import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistentForeignKeyError';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
-import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 
@@ -11,12 +10,11 @@ const createDefaultMessageModel = () => new MessageModel({
 
 describe('MessageModel', () => {
   beforeEach('recreate database', () => {
-    db.useDatabase('_system');
+    const messageModel = createDefaultMessageModel();
     const newDatabaseName = `test-${faker.random.uuid()}`;
 
-    return db.createDatabase(newDatabaseName)
-      .then(() => db.useDatabase(newDatabaseName))
-      .then(() => db.collection('messages').create());
+    return messageModel.createDatabase(newDatabaseName)
+      .then(() => messageModel.createCollection());
   });
 
   it('saves and retrieves object when it is valid', () => {

@@ -1,7 +1,6 @@
 import TeamModel from 'business-chat-backend/model/Team';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
-import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 
@@ -9,12 +8,11 @@ const createDefaultTeamModel = () => new TeamModel();
 
 describe('TeamModel', () => {
   beforeEach('recreate database', () => {
-    db.useDatabase('_system');
+    const teamModel = createDefaultTeamModel();
     const newDatabaseName = `test-${faker.random.uuid()}`;
 
-    return db.createDatabase(newDatabaseName)
-      .then(() => db.useDatabase(newDatabaseName))
-      .then(() => db.collection('teams').create());
+    return teamModel.createDatabase(newDatabaseName)
+      .then(() => teamModel.createCollection());
   });
 
   describe('#save', () => {

@@ -2,7 +2,6 @@ import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistent
 import RoomModel from 'business-chat-backend/model/Room';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
-import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 
@@ -12,12 +11,11 @@ const createDefaultRoomModel = () => new RoomModel({
 
 describe('RoomModel', () => {
   beforeEach('recreate database', () => {
-    db.useDatabase('_system');
+    const roomModel = createDefaultRoomModel();
     const newDatabaseName = `test-${faker.random.uuid()}`;
 
-    return db.createDatabase(newDatabaseName)
-      .then(() => db.useDatabase(newDatabaseName))
-      .then(() => db.collection('rooms').create());
+    return roomModel.createDatabase(newDatabaseName)
+      .then(() => roomModel.createCollection());
   });
 
   describe('#save', () => {
