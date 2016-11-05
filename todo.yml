@@ -3,3 +3,4 @@ todo:
   'output json schema': false
   travisCI: false
   'id unique constraint': false
+  'split app into npm modules': false
