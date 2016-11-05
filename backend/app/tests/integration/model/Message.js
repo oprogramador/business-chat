@@ -1,11 +1,12 @@
-import Message from 'business-chat-backend/model/Message';
+import MessageModel from 'business-chat-backend/model/Message';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 
 const DATABASE_NOT_FOUND = 1228;
+const messageModel = new MessageModel();
 
-describe('Message', () => {
+describe('MessageModel', () => {
   beforeEach('recreate database', () => {
     db.useDatabase('_system');
 
@@ -23,8 +24,8 @@ describe('Message', () => {
       text: 'lorem ipsum',
     };
 
-    return Message.save(message)
-      .then(result => Message.find(result.id))
+    return messageModel.save(message)
+      .then(result => messageModel.find(result.id))
       .then(result => expect(result).to.containSubset(message));
   });
 
@@ -35,7 +36,7 @@ describe('Message', () => {
       senderId: 'foo',
     };
 
-    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+    return expect(messageModel.save(message)).to.be.rejectedWith(ValidationError);
   });
 
   it('invalidates when there are additional fields', () => {
@@ -46,7 +47,7 @@ describe('Message', () => {
       text: 'lorem ipsum',
     };
 
-    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+    return expect(messageModel.save(message)).to.be.rejectedWith(ValidationError);
   });
 
   it('invalidates when provided room id does not exist');
@@ -57,6 +58,6 @@ describe('Message', () => {
       text: 123,
     };
 
-    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+    return expect(messageModel.save(message)).to.be.rejectedWith(ValidationError);
   });
 });

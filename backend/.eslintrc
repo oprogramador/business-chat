@@ -8,6 +8,7 @@
     "sorting"
   ],
   "rules": {
+    "class-methods-use-this": "off",
     "import/extensions": "off",
     "import/imports-first": "off",
     "import/no-extraneous-dependencies": "off",
