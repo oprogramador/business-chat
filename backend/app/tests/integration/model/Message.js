@@ -4,7 +4,6 @@ import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 
 const DATABASE_NOT_FOUND = 1228;
-const messageModel = new MessageModel();
 
 describe('MessageModel', () => {
   beforeEach('recreate database', () => {
@@ -18,6 +17,7 @@ describe('MessageModel', () => {
   });
 
   it('saves and retrieves object when it is valid', () => {
+    const messageModel = new MessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
@@ -31,6 +31,7 @@ describe('MessageModel', () => {
 
   it('invalidates when authentication fails');
   it('invalidates when there are missing fields', () => {
+    const messageModel = new MessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
@@ -40,6 +41,7 @@ describe('MessageModel', () => {
   });
 
   it('invalidates when there are additional fields', () => {
+    const messageModel = new MessageModel();
     const message = {
       foo: 'bar',
       roomId: 'bar',
@@ -50,8 +52,11 @@ describe('MessageModel', () => {
     return expect(messageModel.save(message)).to.be.rejectedWith(ValidationError);
   });
 
-  it('invalidates when provided room id does not exist');
+  it('invalidates when provided room id does not exist', () => {
+  });
+
   it('invalidates when provided text is not a string', () => {
+    const messageModel = new MessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
