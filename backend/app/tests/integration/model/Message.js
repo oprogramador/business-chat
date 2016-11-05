@@ -6,7 +6,7 @@ import expect from 'business-chat-backend/tests/expect';
 const DATABASE_NOT_FOUND = 1228;
 
 const createDefaultMessageModel = () => new MessageModel({
-  roomIdValidator: () => true,
+  roomIdValidator: roomId => roomId === 'existentRoomId',
 });
 
 describe('MessageModel', () => {
@@ -23,7 +23,7 @@ describe('MessageModel', () => {
   it('saves and retrieves object when it is valid', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
-      roomId: 'bar',
+      roomId: 'existentRoomId',
       senderId: 'foo',
       text: 'lorem ipsum',
     };
@@ -37,7 +37,7 @@ describe('MessageModel', () => {
   it('invalidates when there are missing fields', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
-      roomId: 'bar',
+      roomId: 'existentRoomId',
       senderId: 'foo',
     };
 
@@ -48,7 +48,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       foo: 'bar',
-      roomId: 'bar',
+      roomId: 'existentRoomId',
       senderId: 'foo',
       text: 'lorem ipsum',
     };
@@ -62,7 +62,7 @@ describe('MessageModel', () => {
   it('invalidates when provided text is not a string', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
-      roomId: 'bar',
+      roomId: 'existentRoomId',
       senderId: 'foo',
       text: 123,
     };
