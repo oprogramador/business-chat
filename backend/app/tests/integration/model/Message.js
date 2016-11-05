@@ -5,6 +5,10 @@ import expect from 'business-chat-backend/tests/expect';
 
 const DATABASE_NOT_FOUND = 1228;
 
+const createDefaultMessageModel = () => new MessageModel({
+  roomIdValidator: () => true,
+});
+
 describe('MessageModel', () => {
   beforeEach('recreate database', () => {
     db.useDatabase('_system');
@@ -17,7 +21,7 @@ describe('MessageModel', () => {
   });
 
   it('saves and retrieves object when it is valid', () => {
-    const messageModel = new MessageModel();
+    const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
@@ -31,7 +35,7 @@ describe('MessageModel', () => {
 
   it('invalidates when authentication fails');
   it('invalidates when there are missing fields', () => {
-    const messageModel = new MessageModel();
+    const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
@@ -41,7 +45,7 @@ describe('MessageModel', () => {
   });
 
   it('invalidates when there are additional fields', () => {
-    const messageModel = new MessageModel();
+    const messageModel = createDefaultMessageModel();
     const message = {
       foo: 'bar',
       roomId: 'bar',
@@ -56,7 +60,7 @@ describe('MessageModel', () => {
   });
 
   it('invalidates when provided text is not a string', () => {
-    const messageModel = new MessageModel();
+    const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'bar',
       senderId: 'foo',
