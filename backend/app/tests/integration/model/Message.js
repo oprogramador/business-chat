@@ -50,5 +50,13 @@ describe('Message', () => {
   });
 
   it('invalidates when provided room id does not exist');
-  it('invalidates when provided text is not a string');
+  it('invalidates when provided text is not a string', () => {
+    const message = {
+      roomId: 'bar',
+      senderId: 'foo',
+      text: 123,
+    };
+
+    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+  });
 });
