@@ -16,5 +16,6 @@
     "roomId",
     "senderId",
     "text"
-  ]
+  ],
+  "additionalProperties": false
 }

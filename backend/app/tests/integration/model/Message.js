@@ -38,7 +38,17 @@ describe('Message', () => {
     return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
   });
 
-  it('invalidates when there are additional fields');
+  it('invalidates when there are additional fields', () => {
+    const message = {
+      foo: 'bar',
+      roomId: 'bar',
+      senderId: 'foo',
+      text: 'lorem ipsum',
+    };
+
+    return expect(Message.save(message)).to.be.rejectedWith(ValidationError);
+  });
+
   it('invalidates when provided room id does not exist');
   it('invalidates when provided text is not a string');
 });
