@@ -1,3 +1,5 @@
 todo:
   'model tests fully independent from database': false
   'output json schema': false
+  travisCI: false
+  'id unique constraint': false

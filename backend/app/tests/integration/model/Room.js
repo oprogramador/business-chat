@@ -1,6 +1,7 @@
 import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistentForeignKeyError';
 import RoomModel from 'business-chat-backend/model/Room';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
+import _ from 'lodash';
 import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
@@ -17,6 +18,34 @@ describe('RoomModel', () => {
     return db.createDatabase(newDatabaseName)
       .then(() => db.useDatabase(newDatabaseName))
       .then(() => db.collection('rooms').create());
+  });
+
+  describe('#save', () => {
+    it('returns object with id', () => {
+      const roomModel = createDefaultRoomModel();
+      const room = {
+        name: 'foo',
+        teamId: 'existentTeamId',
+      };
+
+      return roomModel.save(room)
+        .then((result) => {
+          expect(result).to.contain.key('id');
+          expect(_.omit(result, 'id')).to.deep.equal(room);
+        });
+    });
+
+    it('does not modify provided object', () => {
+      const roomModel = createDefaultRoomModel();
+      const room = {
+        name: 'foo',
+        teamId: 'existentTeamId',
+      };
+      const roomCopy = _.cloneDeep(room);
+
+      return roomModel.save(room)
+        .then(() => expect(room).to.deep.equal(roomCopy));
+    });
   });
 
   it('saves and retrieves object when it is valid', () => {
@@ -74,5 +103,26 @@ describe('RoomModel', () => {
         expect(error.getKey()).to.equal('teamId');
         expect(error.getValue()).to.equal('nonExistentTeamId');
       });
+  });
+
+  describe('#exists', () => {
+    it('returns true when object exists', () => {
+      const roomModel = createDefaultRoomModel();
+
+      expect(roomModel.exists('nonExistentId')).to.eventually.be.false();
+    });
+
+    it('returns false when object does not exist', () => {
+      const roomModel = createDefaultRoomModel();
+      const room = {
+        name: 'foo',
+        teamId: 'existentTeamId',
+      };
+
+      expect(
+        roomModel.save(room)
+          .then(result => roomModel.exists(result.id))
+      ).to.eventually.be.true();
+    });
   });
 });

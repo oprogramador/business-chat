@@ -3,6 +3,7 @@ import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistent
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import { db } from 'business-chat-backend/servicesManager';
 import schema from './schema/room';
+import uuid from 'node-uuid';
 
 const privates = Symbol('privates');
 
@@ -16,13 +17,20 @@ export default class Room {
     return db.collection('rooms').firstExample({ id });
   }
 
+  exists(id) {
+    return db.collection('rooms').firstExample({ id })
+      .then(result => !!result);
+  }
+
   save(object) {
     if (JSONSchema.validate(object, schema).errors.length > 0) {
       return Promise.reject(new ValidationError());
     }
+    const objectToSave = Object.assign({}, object, { id: uuid.v4() });
 
     return this[privates].validateTeamId(object.teamId)
       .catch(() => Promise.reject(new NonExistentForeignKeyError({ key: 'teamId', value: object.teamId })))
-      .then(() => db.collection('rooms').save(object));
+      .then(() => db.collection('rooms').save(objectToSave))
+      .then(() => objectToSave);
   }
 }
