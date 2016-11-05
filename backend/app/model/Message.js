@@ -20,10 +20,9 @@ export default class Message {
     if (JSONSchema.validate(object, schema).errors.length > 0) {
       return Promise.reject(new ValidationError());
     }
-    if (!this[privates].validateRoomId(object.roomId)) {
-      return Promise.reject(new NonExistentForeignKeyError({ key: 'roomId', value: object.roomId }));
-    }
 
-    return db.collection('messages').save(object);
+    return this[privates].validateRoomId(object.roomId)
+      .catch(() => Promise.reject(new NonExistentForeignKeyError({ key: 'roomId', value: object.roomId })))
+      .then(() => db.collection('messages').save(object));
   }
 }

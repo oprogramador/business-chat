@@ -6,13 +6,13 @@ import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 
 const createDefaultMessageModel = () => new MessageModel({
-  validateRoomId: roomId => roomId === 'existentRoomId',
+  validateRoomId: roomId => (roomId === 'existentRoomId' ? Promise.resolve() : Promise.reject()),
 });
 
 describe('MessageModel', () => {
   beforeEach('recreate database', () => {
     db.useDatabase('_system');
-    const newDatabaseName = `test-${faker.name.firstName()}`;
+    const newDatabaseName = `test-${faker.random.uuid()}`;
 
     return db.createDatabase(newDatabaseName)
       .then(() => db.useDatabase(newDatabaseName))
