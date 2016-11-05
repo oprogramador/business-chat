@@ -1,17 +1,13 @@
 {
-  "title": "room",
+  "title": "team",
   "type": "object",
   "properties": {
-    "teamId": {
-      "type": "string"
-    },
     "name": {
       "type": "string"
     }
   },
   "required": [
-    "name",
-    "teamId"
+    "name"
   ],
   "additionalProperties": false
 }
