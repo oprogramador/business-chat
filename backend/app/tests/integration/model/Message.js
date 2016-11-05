@@ -1,22 +1,21 @@
 import MessageModel from 'business-chat-backend/model/Message';
+import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistentForeignKeyError';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import { db } from 'business-chat-backend/servicesManager';
 import expect from 'business-chat-backend/tests/expect';
-
-const DATABASE_NOT_FOUND = 1228;
+import faker from 'faker';
 
 const createDefaultMessageModel = () => new MessageModel({
-  roomIdValidator: roomId => roomId === 'existentRoomId',
+  validateRoomId: roomId => roomId === 'existentRoomId',
 });
 
 describe('MessageModel', () => {
   beforeEach('recreate database', () => {
     db.useDatabase('_system');
+    const newDatabaseName = `test-${faker.name.firstName()}`;
 
-    return db.dropDatabase('test')
-      .catch(error => (error.errorNum === DATABASE_NOT_FOUND ? Promise.resolve() : Promise.reject(error)))
-      .then(() => db.createDatabase('test'))
-      .then(() => db.useDatabase('test'))
+    return db.createDatabase(newDatabaseName)
+      .then(() => db.useDatabase(newDatabaseName))
       .then(() => db.collection('messages').create());
   });
 
@@ -57,6 +56,29 @@ describe('MessageModel', () => {
   });
 
   it('invalidates when provided room id does not exist', () => {
+    const messageModel = createDefaultMessageModel();
+    const message = {
+      roomId: 'nonExistentRoomId',
+      senderId: 'foo',
+      text: 'lorem ipsum',
+    };
+
+    return expect(messageModel.save(message)).to.be.rejectedWith(NonExistentForeignKeyError);
+  });
+
+  it('returns right error when provided room id does not exist', () => {
+    const messageModel = createDefaultMessageModel();
+    const message = {
+      roomId: 'nonExistentRoomId',
+      senderId: 'foo',
+      text: 'lorem ipsum',
+    };
+
+    return messageModel.save(message)
+      .catch((error) => {
+        expect(error.getKey()).to.equal('roomId');
+        expect(error.getValue()).to.equal('nonExistentRoomId');
+      });
   });
 
   it('invalidates when provided text is not a string', () => {
