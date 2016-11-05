@@ -6,6 +6,7 @@ import schema from './schema/room';
 import uuid from 'node-uuid';
 
 const privates = Symbol('privates');
+const ARANGO_NOT_FOUND = 404;
 
 export default class Room {
   constructor({ validateTeamId }) {
@@ -19,7 +20,8 @@ export default class Room {
 
   exists(id) {
     return db.collection('rooms').firstExample({ id })
-      .then(result => !!result);
+      .then(() => true)
+      .catch(error => (error.errorNum === ARANGO_NOT_FOUND ? false : Promise.reject(error)));
   }
 
   save(object) {

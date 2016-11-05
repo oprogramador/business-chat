@@ -106,20 +106,20 @@ describe('RoomModel', () => {
   });
 
   describe('#exists', () => {
-    it('returns true when object exists', () => {
+    it('returns false when object does not exist', () => {
       const roomModel = createDefaultRoomModel();
 
-      expect(roomModel.exists('nonExistentId')).to.eventually.be.false();
+      return expect(roomModel.exists('nonExistentId')).to.eventually.be.false();
     });
 
-    it('returns false when object does not exist', () => {
+    it('returns true when object exists', () => {
       const roomModel = createDefaultRoomModel();
       const room = {
         name: 'foo',
         teamId: 'existentTeamId',
       };
 
-      expect(
+      return expect(
         roomModel.save(room)
           .then(result => roomModel.exists(result.id))
       ).to.eventually.be.true();
