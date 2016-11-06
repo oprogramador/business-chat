@@ -6,6 +6,7 @@ import faker from 'faker';
 
 const createDefaultMessageModel = () => new MessageModel({
   validateRoomId: roomId => (roomId === 'existentRoomId' ? Promise.resolve() : Promise.reject()),
+  validateSenderId: senderId => (senderId === 'existentSenderId' ? Promise.resolve() : Promise.reject()),
 });
 
 describe('MessageModel', () => {
@@ -21,7 +22,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'existentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
       text: 'lorem ipsum',
     };
 
@@ -35,7 +36,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'existentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
     };
 
     return expect(messageModel.save(message)).to.be.rejectedWith(ValidationError);
@@ -46,7 +47,7 @@ describe('MessageModel', () => {
     const message = {
       foo: 'bar',
       roomId: 'existentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
       text: 'lorem ipsum',
     };
 
@@ -57,7 +58,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'nonExistentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
       text: 'lorem ipsum',
     };
 
@@ -68,7 +69,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'nonExistentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
       text: 'lorem ipsum',
     };
 
@@ -83,7 +84,7 @@ describe('MessageModel', () => {
     const messageModel = createDefaultMessageModel();
     const message = {
       roomId: 'existentRoomId',
-      senderId: 'foo',
+      senderId: 'existentSenderId',
       text: 123,
     };
 
