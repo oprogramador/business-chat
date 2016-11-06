@@ -10,4 +10,10 @@ router.post('/', (req, res) => {
     .catch(() => res.status(HTTPStatus.BAD_REQUEST).end());
 });
 
+router.get('/:id', (req, res) => {
+  userModel.find(req.params.id)
+    .then(result => res.status(HTTPStatus.OK).json(result))
+    .catch(() => res.status(HTTPStatus.NOT_FOUND).end());
+});
+
 export default router;

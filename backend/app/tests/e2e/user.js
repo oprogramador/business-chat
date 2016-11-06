@@ -43,4 +43,33 @@ describe('User API', () => {
         .expect(({ body }) => expect(body).to.be.empty());
     });
   });
+
+  describe('get', () => {
+    it('gets object when it exists', () => {
+      const user = {
+        username: 'foo',
+      };
+
+      return request(app)
+        .post('/user/')
+        .send(user)
+        .then(({ body: postBody }) => {
+          const id = postBody.id;
+
+          return request(app)
+            .get(`/user/${id}`)
+            .expect(HTTPStatus.OK)
+            .expect(({ body }) => expect(body).to.deep.equal(Object.assign({}, user, { id })));
+        });
+    });
+
+    it('returns not found status when it does not exist', () => {
+      const id = 'non-existent-id';
+
+      return request(app)
+        .get(`/user/${id}`)
+        .expect(HTTPStatus.NOT_FOUND)
+        .expect(({ body }) => expect(body).to.be.empty());
+    });
+  });
 });
