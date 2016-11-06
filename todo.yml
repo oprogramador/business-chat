@@ -4,7 +4,7 @@ todo:
     websocket: false
     routing: false
     'model tests fully independent from database': true
-    'output json schema': false
+    'output json schema': true
     travisCI: false
     'id unique constraint': false
     'split app into npm modules': false

@@ -1,16 +1,27 @@
 import JSONSchema from 'jsonschema';
 import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistentForeignKeyError';
+import ParameterError from 'business-chat-backend/errors/ParameterError';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
 import { db } from 'business-chat-backend/servicesManager';
+import filter from 'json-schema-filter';
 import uuid from 'node-uuid';
 
 const privates = Symbol('privates');
 const ARANGO_NOT_FOUND = 404;
 
 export default class CommonModel {
-  constructor({ collectionName, inputSchema, validators }) {
-    this[privates] = { collectionName, inputSchema, validators };
+  constructor({ collectionName, inputSchema, outputSchema, validators = {} }) {
+    if (typeof collectionName !== 'string') {
+      throw new ParameterError({ message: 'is not a string', parameterName: 'collectionName' });
+    }
+    if (typeof inputSchema !== 'object') {
+      throw new ParameterError({ message: 'is not an object', parameterName: 'inputSchema' });
+    }
+    if (typeof outputSchema !== 'object') {
+      throw new ParameterError({ message: 'is not an object', parameterName: 'outputSchema' });
+    }
+    this[privates] = { collectionName, inputSchema, outputSchema, validators };
   }
 
   createDatabase(name) {
@@ -25,7 +36,8 @@ export default class CommonModel {
   }
 
   find(id) {
-    return db.collection(this[privates].collectionName).firstExample({ id });
+    return db.collection(this[privates].collectionName).firstExample({ id })
+      .then(object => filter(this[privates].outputSchema, object));
   }
 
   exists(id) {

@@ -1,16 +1,19 @@
 import CommonModel from 'business-chat-backend/model/CommonModel';
 import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistentForeignKeyError';
+import ParameterError from 'business-chat-backend/errors/ParameterError';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 import inputSchema from './data/exampleInputSchema';
+import outputSchema from './data/exampleOutputSchema';
 
 const collectionName = 'exampleCollection';
 
 const createDefaultModel = () => new CommonModel({
   collectionName,
   inputSchema,
+  outputSchema,
   validators: {
     key1: value => (value === 'existentValue1' ? Promise.resolve() : Promise.reject()),
     key2: value => (value === 'existentValue2' ? Promise.resolve() : Promise.reject()),
@@ -137,6 +140,66 @@ describe('CommonModel', () => {
         commonModel.save(object)
           .then(result => commonModel.exists(result.id))
       ).to.eventually.be.true();
+    });
+  });
+
+  describe('#find', () => {
+    it('returns all required fields without additional ones', () => {
+      const commonModel = createDefaultModel();
+      const object = {
+        key1: 'existentValue1',
+        key2: 'existentValue2',
+        key3: 'foo',
+      };
+
+      return commonModel.save(object)
+        .then(result => commonModel.find(result.id))
+        .then(result => expect(result).to.have.keys('id', 'key1', 'key2', 'key3'));
+    });
+  });
+
+  describe('#constructor', () => {
+    it('throws ParameterError when provided collectionName is not a string', () => {
+      const createCommonModel = () => new CommonModel({
+        collectionName: [],
+        inputSchema,
+        outputSchema,
+      });
+
+      expect(createCommonModel).to.throw(ParameterError);
+      try {
+        createCommonModel();
+      } catch (error) {
+        expect(error.getParameterName()).to.equal('collectionName');
+      }
+    });
+
+    it('throws ParameterError when provided inputSchema is undefined', () => {
+      const createCommonModel = () => new CommonModel({
+        collectionName: 'foo',
+        outputSchema,
+      });
+
+      expect(createCommonModel).to.throw(ParameterError);
+      try {
+        createCommonModel();
+      } catch (error) {
+        expect(error.getParameterName()).to.equal('inputSchema');
+      }
+    });
+
+    it('throws ParameterError when provided outputSchema is undefined', () => {
+      const createCommonModel = () => new CommonModel({
+        collectionName: 'foo',
+        inputSchema,
+      });
+
+      expect(createCommonModel).to.throw(ParameterError);
+      try {
+        createCommonModel();
+      } catch (error) {
+        expect(error.getParameterName()).to.equal('outputSchema');
+      }
     });
   });
 });
