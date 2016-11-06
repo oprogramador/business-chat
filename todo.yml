@@ -1,6 +1,10 @@
 todo:
-  'model tests fully independent from database': true
-  'output json schema': false
-  travisCI: false
-  'id unique constraint': false
-  'split app into npm modules': false
+  backend:
+    authentication: false
+    websocket: false
+    routing: false
+    'model tests fully independent from database': true
+    'output json schema': false
+    travisCI: false
+    'id unique constraint': false
+    'split app into npm modules': false
