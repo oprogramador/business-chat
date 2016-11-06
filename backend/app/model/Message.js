@@ -1,11 +1,13 @@
 import CommonModel from 'business-chat-backend/model/CommonModel';
-import schema from './schema/message';
+import inputSchema from './schema/input/message';
+import outputSchema from './schema/output/message';
 
 export default class Message extends CommonModel {
   constructor({ validateRoomId, validateSenderId }) {
     super({
       collectionName: 'messages',
-      schema,
+      inputSchema,
+      outputSchema,
       validators: {
         roomId: validateRoomId,
         senderId: validateSenderId,

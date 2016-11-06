@@ -4,13 +4,13 @@ import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
-import schema from './data/exampleSchema';
+import inputSchema from './data/exampleInputSchema';
 
 const collectionName = 'exampleCollection';
 
 const createDefaultModel = () => new CommonModel({
   collectionName,
-  schema,
+  inputSchema,
   validators: {
     key1: value => (value === 'existentValue1' ? Promise.resolve() : Promise.reject()),
     key2: value => (value === 'existentValue2' ? Promise.resolve() : Promise.reject()),

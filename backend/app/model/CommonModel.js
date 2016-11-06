@@ -9,8 +9,8 @@ const privates = Symbol('privates');
 const ARANGO_NOT_FOUND = 404;
 
 export default class CommonModel {
-  constructor({ collectionName, schema, validators }) {
-    this[privates] = { collectionName, schema, validators };
+  constructor({ collectionName, inputSchema, validators }) {
+    this[privates] = { collectionName, inputSchema, validators };
   }
 
   createDatabase(name) {
@@ -35,7 +35,7 @@ export default class CommonModel {
   }
 
   validate(object) {
-    if (JSONSchema.validate(object, this[privates].schema).errors.length > 0) {
+    if (JSONSchema.validate(object, this[privates].inputSchema).errors.length > 0) {
       return Promise.reject(new ValidationError());
     }
 
