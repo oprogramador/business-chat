@@ -2,7 +2,7 @@ todo:
   backend:
     authentication: false
     websocket: false
-    routing: false
+    routing: true
     'model tests fully independent from database': true
     'output json schema': true
     travisCI: false
@@ -12,4 +12,5 @@ todo:
     'logger tests': false
     'e2e tests independent from model': false
     'custom not found error': false
-    'routing generalisation': false
+    'routing generalisation': true
+    'detail validation info': false
