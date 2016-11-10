@@ -25,6 +25,7 @@ describe('User API', () => {
       return request(app)
         .post('/user/')
         .send(user)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.CREATED)
         .expect(({ body }) => {
           expect(body).to.contain.key('id');
@@ -39,6 +40,7 @@ describe('User API', () => {
       return request(app)
         .post('/user/')
         .send(user)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.BAD_REQUEST)
         .expect(({ body }) => expect(body).to.be.empty());
     });
@@ -53,11 +55,13 @@ describe('User API', () => {
       return request(app)
         .post('/user/')
         .send(user)
+        .auth('foo', 'foo')
         .then(({ body: postBody }) => {
           const id = postBody.id;
 
           return request(app)
             .get(`/user/${id}`)
+            .auth('foo', 'foo')
             .expect(HTTPStatus.OK)
             .expect(({ body }) => expect(body).to.deep.equal(Object.assign({}, user, { id })));
         });
@@ -68,6 +72,7 @@ describe('User API', () => {
 
       return request(app)
         .get(`/user/${id}`)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.NOT_FOUND)
         .expect(({ body }) => expect(body).to.be.empty());
     });

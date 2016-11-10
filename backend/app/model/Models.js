@@ -1,3 +1,4 @@
+import { ERROR_ARANGO_DUPLICATE_NAME } from 'arangodb-error-codes';
 import MessageModel from 'business-chat-backend/model/Message';
 import RoomModel from 'business-chat-backend/model/Room';
 import TeamModel from 'business-chat-backend/model/Team';
@@ -18,7 +19,8 @@ const configureDatabase = databaseName => messageModel.createDatabase(databaseNa
     roomModel.createCollection(),
     teamModel.createCollection(),
     userModel.createCollection(),
-  ]));
+  ]))
+  .catch(error => (error.errorNum === ERROR_ARANGO_DUPLICATE_NAME ? Promise.resolve() : Promise.reject(error)));
 
 export default {
   configureDatabase,

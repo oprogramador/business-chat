@@ -3,12 +3,12 @@ import NonExistentForeignKeyError from 'business-chat-backend/errors/NonExistent
 import ParameterError from 'business-chat-backend/errors/ParameterError';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
+import arangoErrorCodes from 'arangodb-error-codes';
 import { db } from 'business-chat-backend/servicesManager';
 import filter from 'json-schema-filter';
 import uuid from 'node-uuid';
 
 const privates = Symbol('privates');
-const ARANGO_NOT_FOUND = 404;
 
 export default class CommonModel {
   constructor({ collectionName, inputSchema, outputSchema, validators = {} }) {
@@ -43,7 +43,7 @@ export default class CommonModel {
   exists(id) {
     return db.collection(this[privates].collectionName).firstExample({ id })
       .then(() => true)
-      .catch(error => (error.errorNum === ARANGO_NOT_FOUND ? false : Promise.reject(error)));
+      .catch(error => (error.errorNum === arangoErrorCodes.ERROR_HTTP_NOT_FOUND ? false : Promise.reject(error)));
   }
 
   validate(object) {

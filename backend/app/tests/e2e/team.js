@@ -23,6 +23,7 @@ describe('Team API', () => {
       return request(app)
         .post('/team/')
         .send(team)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.CREATED)
         .expect(({ body }) => {
           expect(body).to.contain.key('id');
@@ -37,6 +38,7 @@ describe('Team API', () => {
       return request(app)
         .post('/team/')
         .send(team)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.BAD_REQUEST)
         .expect(({ body }) => expect(body).to.be.empty());
     });
@@ -51,11 +53,13 @@ describe('Team API', () => {
       return request(app)
         .post('/team/')
         .send(team)
+        .auth('foo', 'foo')
         .then(({ body: postBody }) => {
           const id = postBody.id;
 
           return request(app)
             .get(`/team/${id}`)
+            .auth('foo', 'foo')
             .expect(HTTPStatus.OK)
             .expect(({ body }) => expect(body).to.deep.equal(Object.assign({}, team, { id })));
         });
@@ -66,6 +70,7 @@ describe('Team API', () => {
 
       return request(app)
         .get(`/team/${id}`)
+        .auth('foo', 'foo')
         .expect(HTTPStatus.NOT_FOUND)
         .expect(({ body }) => expect(body).to.be.empty());
     });

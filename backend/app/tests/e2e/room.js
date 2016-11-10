@@ -23,10 +23,12 @@ describe('Room API', () => {
       return request(app)
         .post('/team/')
         .send(team)
+        .auth('foo', 'foo')
           .then(({ body: teamResult }) =>
             request(app)
               .post('/room/')
               .send(Object.assign({}, room, { teamId: teamResult.id }))
+              .auth('foo', 'foo')
               .expect(HTTPStatus.CREATED)
           );
     });

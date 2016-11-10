@@ -8,6 +8,7 @@
     "test": "mocha -r babel-register --recursive app/tests --timeout 5000"
   },
   "dependencies": {
+    "arangodb-error-codes": "^1.0.3",
     "arangojs": "^5.1.0",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.4",
@@ -18,7 +19,9 @@
     "json-schema-filter": "^0.1.5",
     "jsonschema": "^1.1.0",
     "lodash": "^4.16.6",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.18.0",
