@@ -11,7 +11,7 @@ describe('Serializer', () => {
       .then(() => serializer.createCollection());
   });
 
-  it('saves and retrieves object when it is valid', () => {
+  it('saves and reloads object when it is valid', () => {
     const serializer = new Serializer();
     const object = {
       name: 'John',
@@ -22,9 +22,36 @@ describe('Serializer', () => {
 
     return serializableObject.save()
       .then(() => serializableObject.reload())
-      .then((result) => {
-        expect(result).to.contain.key('id');
-        expect(result).to.containSubset(serializableObject);
+      .then(() => {
+        expect(serializableObject.getInnerObject()).to.contain.key('id');
+        expect(serializableObject.getInnerObject()).to.containSubset(serializableObject);
+      });
+  });
+
+  it('reloads object when someone else has changed it', () => {
+    const serializer = new Serializer();
+    const object = {
+      id: 'foo',
+      name: 'John',
+      surname: 'Smith',
+    };
+
+    const serializableObject = serializer.create(object);
+    const anotherSerializableObject = serializer.create(object);
+
+    return serializableObject.save()
+      .then(() => {
+        anotherSerializableObject.setField('name', 'Vanessa');
+
+        return anotherSerializableObject.save();
+      })
+      .then(() => serializableObject.reload())
+      .then(() => {
+        expect(serializableObject.getInnerObject()).to.containSubset({
+          id: 'foo',
+          name: 'Vanessa',
+          surname: 'Smith',
+        });
       });
   });
 
