@@ -24,7 +24,7 @@ describe('Serializer', () => {
       .then(() => serializableObject.reload())
       .then(() => {
         expect(serializableObject.getInnerObject()).to.contain.key('id');
-        expect(serializableObject.getInnerObject()).to.containSubset(serializableObject);
+        expect(serializableObject.getInnerObject()).to.containSubset(object);
       });
   });
 
@@ -33,6 +33,9 @@ describe('Serializer', () => {
     const object = {
       id: 'foo',
       name: 'John',
+      setName(name) {
+        this.name = name;
+      },
       surname: 'Smith',
     };
 
@@ -41,7 +44,7 @@ describe('Serializer', () => {
 
     return serializableObject.save()
       .then(() => {
-        anotherSerializableObject.setField('name', 'Vanessa');
+        anotherSerializableObject.setName('Vanessa');
 
         return anotherSerializableObject.save();
       })
