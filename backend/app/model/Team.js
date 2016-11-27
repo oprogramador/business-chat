@@ -14,4 +14,8 @@ export default class Team {
       throw new ValidationError();
     }
   }
+
+  getName() {
+    return this.name;
+  }
 }

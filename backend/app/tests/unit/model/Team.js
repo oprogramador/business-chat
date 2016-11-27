@@ -32,4 +32,9 @@ describe('Team', () => {
     new Team(object);
     expect(validate.withArgs(object)).to.be.calledOnce();
   });
+
+  it('assigns name', () => {
+    const object = new Team({ name: 'foo-bar' });
+    expect(object.getName()).to.equal('foo-bar');
+  });
 });
