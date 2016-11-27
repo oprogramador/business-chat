@@ -18,6 +18,7 @@
     ],
     "new-cap": "off",
     "newline-before-return": "error",
+    "no-new": "off",
     "one-var": [
       "error",
       {
