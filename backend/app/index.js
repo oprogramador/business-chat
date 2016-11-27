@@ -1,18 +1,13 @@
 import ExpressBunyanLogger from 'express-bunyan-logger';
 import addRoutes from 'business-chat-backend/routes/addRoutes';
-import config from 'business-chat-backend/config';
-import { configureDatabase } from 'business-chat-backend/model/Models';
 import express from 'express';
 import { logger } from 'business-chat-backend/servicesManager';
 
-export default configureDatabase(config.db.name)
-  .then(() => {
-    const PORT = 3000;
-    const app = express();
-    app.use(ExpressBunyanLogger());
-    addRoutes(app);
-    app.get('/', (req, res) => res.json({ success: true }));
-    app.listen(PORT);
+const PORT = 3000;
+const app = express();
+app.use(ExpressBunyanLogger());
+addRoutes(app);
+app.get('/', (req, res) => res.json({ success: true }));
+app.listen(PORT);
 
-    logger.info(`Running on http://localhost: ${PORT}`);
-  });
+logger.info(`Running on http://localhost: ${PORT}`);
