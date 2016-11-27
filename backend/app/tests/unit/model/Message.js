@@ -17,7 +17,7 @@ describe('Message', () => {
   });
 
   it('throws ValidationError when provided text is not a string', () => {
-    expect(() => new Message({ sender: new User({}), text: 123 })).to.throw(ValidationError);
+    expect(() => new Message({ sender: new User({ username: 'alicia' }), text: 123 })).to.throw(ValidationError);
   });
 
   it('throws InvalidInstanceError when provided sender is not an instance of User', () => {
@@ -25,27 +25,27 @@ describe('Message', () => {
   });
 
   it('succeeds when provided text is an empy string', () => {
-    expect(() => new Message({ sender: new User({}), text: '' })).to.not.throw(Error);
+    expect(() => new Message({ sender: new User({ username: 'alicia' }), text: '' })).to.not.throw(Error);
   });
 
   it('succeeds when provided text is not empy string', () => {
-    expect(() => new Message({ sender: new User({}), text: 'foo' })).to.not.throw(Error);
+    expect(() => new Message({ sender: new User({ username: 'alicia' }), text: 'foo' })).to.not.throw(Error);
   });
 
   it('calls `validate` with the same arguments', () => {
     const validate = sandbox.spy(Message.prototype, 'validate');
-    const object = { sender: new User({}), text: 'bar' };
+    const object = { sender: new User({ username: 'alicia' }), text: 'bar' };
     new Message(object);
     expect(validate.withArgs(object)).to.be.calledOnce();
   });
 
   it('assigns text', () => {
-    const object = new Message({ sender: new User({}), text: 'foo-bar' });
+    const object = new Message({ sender: new User({ username: 'alicia' }), text: 'foo-bar' });
     expect(object.getText()).to.equal('foo-bar');
   });
 
   it('assigns sender', () => {
-    const sender = new User({});
+    const sender = new User({ username: 'alicia' });
     const object = new Message({ sender, text: 'foo-bar' });
     expect(object.getSender()).to.equal(sender);
   });

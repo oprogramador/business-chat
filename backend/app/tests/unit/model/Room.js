@@ -47,7 +47,7 @@ describe('Room', () => {
 
   it('adds user', () => {
     const room = new Room({});
-    const user = new User({});
+    const user = new User({ username: 'alicia' });
     room.addUser(user);
     const users = room.getUsers();
 
