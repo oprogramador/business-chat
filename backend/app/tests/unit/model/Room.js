@@ -1,4 +1,6 @@
+import InvalidInstanceError from 'business-chat-backend/errors/InvalidInstanceError';
 import Room from 'business-chat-backend/model/Room';
+import User from 'business-chat-backend/model/User';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import expect from 'business-chat-backend/tests/expect';
 import sinon from 'sinon';
@@ -41,5 +43,22 @@ describe('Room', () => {
   it('assigns name when it is undefined', () => {
     const object = new Room({});
     expect(object.getName()).to.be.undefined();
+  });
+
+  it('adds user', () => {
+    const room = new Room({});
+    const user = new User({});
+    room.addUser(user);
+    const users = room.getUsers();
+
+    expect(users).to.have.length(1);
+    expect(users[0]).to.equal(user);
+  });
+
+  describe('#addUser', () => {
+    it('throws InvalidInstanceError for object not being instance of User', () => {
+      const room = new Room({});
+      expect(() => room.addUser({})).to.throw(InvalidInstanceError);
+    });
   });
 });
