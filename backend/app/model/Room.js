@@ -1,4 +1,5 @@
 import InvalidInstanceError from 'business-chat-backend/errors/InvalidInstanceError';
+import Message from 'business-chat-backend/model/Message';
 import User from 'business-chat-backend/model/User';
 import ValidationError from 'business-chat-backend/errors/ValidationError';
 import _ from 'lodash';
@@ -8,6 +9,7 @@ export default class Room {
     this.validate({ name });
     this.name = name;
     this.users = [];
+    this.messages = [];
   }
 
   validate({ name }) {
@@ -30,7 +32,18 @@ export default class Room {
     this.users.push(user);
   }
 
+  addMessage(message) {
+    if (!(message instanceof Message)) {
+      throw new InvalidInstanceError();
+    }
+    this.messages.push(message);
+  }
+
   getUsers() {
     return _.clone(this.users);
+  }
+
+  getMessages() {
+    return _.clone(this.messages);
   }
 }
