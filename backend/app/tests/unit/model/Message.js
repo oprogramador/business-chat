@@ -49,4 +49,21 @@ describe('Message', () => {
     const object = new Message({ sender, text: 'foo-bar' });
     expect(object.getSender()).to.equal(sender);
   });
+
+  it('saves creation time', () => {
+    const object = new Message({ sender: new User({ username: 'alicia' }), text: 'foo-bar' });
+    const createdAt = object.getCreatedAt();
+    expect(createdAt).to.be.a('number');
+    expect(createdAt).to.be.lessThan(Date.now());
+    const allowedOffset = 100;
+    expect(createdAt).to.be.greaterThan(Date.now() - allowedOffset);
+
+    return new Promise((resolve) => {
+      const timeAfter = 100;
+      setTimeout(() => {
+        expect(object.getCreatedAt()).to.equal(createdAt);
+        resolve();
+      }, timeAfter);
+    });
+  });
 });

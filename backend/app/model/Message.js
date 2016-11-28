@@ -7,6 +7,7 @@ export default class Message {
     this.validate({ sender, text });
     this.sender = sender;
     this.text = text;
+    this.createdAt = Date.now();
   }
 
   validate({ sender, text }) {
@@ -24,5 +25,9 @@ export default class Message {
 
   getSender() {
     return this.sender;
+  }
+
+  getCreatedAt() {
+    return this.createdAt;
   }
 }
