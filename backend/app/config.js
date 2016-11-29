@@ -6,4 +6,7 @@ export default {
     port: process.env.DB_PORT,
     username: process.env.DB_USER,
   },
+  http: {
+    port: process.env.PORT,
+  },
 };

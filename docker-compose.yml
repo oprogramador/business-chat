@@ -13,8 +13,6 @@ services:
   backend:
     container_name: business-chat-backend
     build: backend
-    ports:
-      - 3001:3000
     depends_on:
       - db
     volumes:
@@ -25,3 +23,13 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: localhost
       DB_PORT: 8529
+      PORT: 3001
+
+  frontend:
+    container_name: business-chat-frontend
+    build: frontend
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/src/app
+    network_mode: host
