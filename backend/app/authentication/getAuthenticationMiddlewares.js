@@ -1,9 +1,8 @@
-import bodyParser from 'body-parser';
 import passport from 'passport';
 import passportHttp from 'passport-http';
 import verify from 'business-chat-backend/authentication/verify';
 
-export default (app) => {
+export default () => {
   passport.use(new passportHttp.BasicStrategy(
     (username, password, done) => {
       verify(username, password)
@@ -12,7 +11,8 @@ export default (app) => {
     }
   ));
 
-  return app.use(bodyParser.json())
-    .use(passport.initialize())
-    .use(passport.authenticate('basic', { session: false }));
+  return [
+    passport.initialize(),
+    passport.authenticate('basic', { session: false }),
+  ];
 };
