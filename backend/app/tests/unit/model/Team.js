@@ -29,6 +29,7 @@ describe('Team', () => {
   it('calls `validate` with the same arguments', () => {
     const validate = sandbox.spy(Team.prototype, 'validate');
     const object = { name: 'bar' };
+    // eslint-disable-next-line no-new
     new Team(object);
     expect(validate.withArgs(object)).to.be.calledOnce();
   });

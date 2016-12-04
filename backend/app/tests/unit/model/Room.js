@@ -31,6 +31,7 @@ describe('Room', () => {
   it('calls `validate` with the same arguments', () => {
     const validate = sandbox.spy(Room.prototype, 'validate');
     const object = { name: 'bar' };
+    // eslint-disable-next-line no-new
     new Room(object);
     expect(validate.withArgs(object)).to.be.calledOnce();
   });

@@ -64,6 +64,7 @@ describe('Message', () => {
       sender: new User({ username: 'alicia' }),
       text: 'bar',
     };
+    // eslint-disable-next-line no-new
     new Message(object);
     expect(validate.withArgs(object)).to.be.calledOnce();
   });
