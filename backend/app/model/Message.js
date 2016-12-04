@@ -21,6 +21,10 @@ export default class Message {
     if (!(sender instanceof User)) {
       throw new InvalidInstanceError();
     }
+    if (typeof text !== 'string') {
+      throw new ValidationError();
+    }
+    throw new ValidationError();
   }
 
   getText() {
