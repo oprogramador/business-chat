@@ -24,7 +24,6 @@ export default class Message {
     if (typeof text !== 'string') {
       throw new ValidationError();
     }
-    throw new ValidationError();
   }
 
   getText() {
