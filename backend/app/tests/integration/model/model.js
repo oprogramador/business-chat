@@ -1,4 +1,4 @@
-import User from 'business-chat-backend/model/User';
+import { User } from 'business-chat-model';
 import expect from 'business-chat-backend/tests/expect';
 import faker from 'faker';
 import serializer from 'business-chat-backend/services/serializer';
