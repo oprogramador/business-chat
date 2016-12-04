@@ -4,8 +4,9 @@
     "create-project-symlink": "scripts/create-project-symlink.sh",
     "lint": "eslint app",
     "postinstall": "npm run create-project-symlink",
-    "start": "nodemon -r babel-register app/index.js",
-    "test": "mocha -r babel-register --recursive app/tests --timeout 5000"
+    "start": "scripts/start.sh",
+    "test-mocha": "mocha -r babel-register --recursive app/tests --timeout 5000",
+    "test": "npm run lint && npm run test-mocha"
   },
   "dependencies": {
     "arangodb-error-codes": "^1.0.3",
