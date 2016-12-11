@@ -13,6 +13,7 @@ const serializer = SerializerFactory.create({
     db,
   },
   prototypes: {
+    Array: Array.prototype,
     Message: Message.prototype,
     Room: Room.prototype,
     Team: Team.prototype,
