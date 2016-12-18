@@ -5,12 +5,11 @@ todo:
     routing: true
     'model tests fully independent from database': true
     'output json schema': true
-    travisCI: false
-    'id unique constraint': false
-    'split app into npm modules': false
-    'external tests': false
-    'logger tests': false
-    'e2e tests independent from model': false
+    travisCI: true
+    'split app into npm modules': true
+    'external tests': true
+    'logger tests': true
+    'e2e tests independent from model': true
     'custom not found error': false
     'routing generalisation': true
     'detail validation info': false
